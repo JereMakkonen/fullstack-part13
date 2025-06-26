@@ -1,7 +1,7 @@
 const router = require('express').Router()
 const { Op } = require('sequelize')
 
-const { tokenExtractor } = require('../util/middleware');
+const { tokenExtractor } = require('../util/middleware')
 const { Blog, User } = require('../models')
 
 router.get('/', async (req, res) => {
@@ -15,7 +15,7 @@ router.get('/', async (req, res) => {
   }
 
   const blog = await Blog.findAll({
-    attributes: { exclude: ['userId'] },
+    attributes: { exclude: ['userId', 'createdAt', 'updatedAt'] },
     include: {
       model: User,
       attributes: ['id', 'username']
