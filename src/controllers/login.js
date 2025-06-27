@@ -3,6 +3,7 @@ const router = require('express').Router()
 
 const { SECRET } = require('../util/config')
 const User = require('../models/user')
+const ActiveToken = require('../models/activeToken')
 
 router.post('/', async (req, res) => {
 
@@ -20,8 +21,9 @@ router.post('/', async (req, res) => {
   }
 
   const token = jwt.sign(userForToken, SECRET)
+  await ActiveToken.create({ token })
 
-  res.status(200).send({ token, username: user.username, name: user.name })
+  return res.status(200).send({ ...userForToken, token })
 })
 
 module.exports = router
